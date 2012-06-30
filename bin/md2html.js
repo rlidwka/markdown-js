@@ -8,10 +8,11 @@
     , stream
     , opts
     , buffer = ""
+    , dialects = Object.keys( markdown.Markdown.dialects )
     ;
 
   opts = nopt(
-    { "dialect": Object.keys( markdown.Markdown.dialects )
+    { "dialect": dialects
     , "help": Boolean
     }
   );
@@ -19,7 +20,10 @@
   if (opts.help) {
     var name = process.argv[1].split('/').pop()
     console.warn( require('util').format(
-      'usage: %s [--dialect=DIALECT] FILE\n\nValid dialects are Gruber (the default) or Maruku',
+      'usage: %s [--dialect=DIALECT] FILE\n\nValid dialects are ' + 
+        dialects.map(function(x, i) {
+          return x + (i == 0 ? ' (the default)' : '') 
+        }).join(', '),
       name
     ) );
     process.exit(0);
